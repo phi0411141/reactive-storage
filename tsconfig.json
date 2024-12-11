@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "target": "ES2020",
+    "module": "esnext",
+    "moduleResolution": "nodenext",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true,
+    "allowImportingTsExtensions": false
+  },
+  "include": [
+    "src",
+    "examples"
+  ],
+  "exclude": ["node_modules"]
+}

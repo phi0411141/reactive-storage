@@ -1,0 +1,40 @@
+{
+  "name": "@phi0411141/reactive-storage",
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "npx unbuild",
+    "test": "tsc -p tsconfig.json --noEmit && vitest",
+    "publish": "npm run build && npm publish"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.8",
+    "typescript": "^5.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phi0411141/reactive-storage.git"
+  },
+  "keywords": [
+    "typescript",
+    "typesafe",
+    "localStorage",
+    "storage"
+  ],
+  "author": "phi0411141",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phi0411141/reactive-storage/issues"
+  },
+  "homepage": "https://github.com/phi0411141/reactive-storage#readme"
+}

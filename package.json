@@ -2,19 +2,20 @@
   "name": "@phi0411141/reactive-storage",
   "version": "0.0.1",
   "files": [
-    "dist"
+    "dist",
+    "package.json"
   ],
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.mjs"
     }
   },
   "scripts": {
     "build": "npx unbuild",
-    "test": "tsc -p tsconfig.json --noEmit && vitest",
+    "test": "./node_modules/.bin/tsc -p tsconfig.json --noEmit && vitest",
     "publish": "npm run build && npm publish"
   },
   "devDependencies": {

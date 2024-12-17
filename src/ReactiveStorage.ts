@@ -64,12 +64,12 @@ export class ReactiveStorage<KeyOptions extends Record<string, StorageKey>> {
   }
 
   clear() {
-    return Object.keys(this.storageKeys).forEach((key1) => {
-      if (this.storageKeys[key1]!.persistent) {
+    return Object.keys(this.storageKeys).forEach((key) => {
+      if (this.storageKeys[key]!.persistent) {
         return;
       }
 
-      return this.adaptor.remove(key1);
+      return this.adaptor.remove(key);
     });
   }
 

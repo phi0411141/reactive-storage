@@ -5,11 +5,11 @@ export interface CustomEventDetail<T = unknown> {
   value: T;
 }
 
-export function createLocalStorageAdaptor(key: string, {crossTabs}: {crossTabs: boolean}): Adaptor {
-  const customEventKey = `${key}_STORAGE_localStorage`;
+export function createLocalStorageAdaptor(storageId: string, {crossTabs}: {crossTabs?: boolean} = {crossTabs: false}): Adaptor {
+  const customEventKey = `${storageId}_STORAGE_localStorage`;
 
   function toKey(key: string) {
-    return `${key}_${String(key)}`;
+    return `${storageId}_${String(key)}`;
   }
 
   function fireCustomEvent(key: string, newVal: unknown) {
@@ -21,14 +21,27 @@ export function createLocalStorageAdaptor(key: string, {crossTabs}: {crossTabs: 
   }
 
   function listenCustomEvent(callback: (val: any) => void): UnregisterFn {
-    const handler = (e: CustomEvent) => {
+    const inWindowHandler = (e: CustomEvent) => {
       callback(e.detail);
     };
 
-    window.addEventListener(customEventKey, handler as EventListener);
+    const crossTabsHandler = (e: StorageEvent) => {
+      callback({
+        key: e.key,
+        value: e.newValue,
+      });
+    };
+
+    window.addEventListener(customEventKey, inWindowHandler as EventListener);
+    if (crossTabs) {
+      window.addEventListener('storage', crossTabsHandler as EventListener);
+    }
 
     return () => {
-      window.removeEventListener(customEventKey, handler as EventListener);
+      window.removeEventListener(customEventKey, inWindowHandler as EventListener);
+      if (crossTabs) {
+        window.removeEventListener('storage', crossTabsHandler as EventListener);
+      }
     };
   }
 
@@ -38,17 +51,15 @@ export function createLocalStorageAdaptor(key: string, {crossTabs}: {crossTabs: 
     },
     set: (key, newValue) => {
       window.localStorage.setItem(toKey(key), newValue);
-      fireCustomEvent(key, newValue);
+      fireCustomEvent(toKey(key), newValue);
     },
     remove: (key) => {
-      window.localStorage.removeItem(key);
-    },
-    clear: () => {
-      window.localStorage.clear();
+      window.localStorage.removeItem(toKey(key));
+      fireCustomEvent(toKey(key), null);
     },
     onValueChanged<Value = unknown>(key: string, listener: (val: Value) => void): UnregisterFn {
       return listenCustomEvent((detail: CustomEventDetail<string>) => {
-        if (key === detail.key) {
+        if (toKey(key) === detail.key) {
           listener(detail.value as Value);
         }
       });

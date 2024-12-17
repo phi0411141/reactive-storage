@@ -1,6 +1,6 @@
 {
   "name": "@phi0411141/reactive-storage",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "files": [
     "dist",
     "package.json"
@@ -15,12 +15,13 @@
   },
   "scripts": {
     "build": "npx unbuild",
-    "test": "./node_modules/.bin/tsc -p tsconfig.json --noEmit && vitest",
+    "test": "vitest --environment jsdom",
     "publish": "npm run build && npm publish"
   },
   "devDependencies": {
-    "vitest": "^2.1.8",
-    "typescript": "^5.5.4"
+    "jsdom": "^25.0.1",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.8"
   },
   "repository": {
     "type": "git",
@@ -37,5 +38,9 @@
   "bugs": {
     "url": "https://github.com/phi0411141/reactive-storage/issues"
   },
-  "homepage": "https://github.com/phi0411141/reactive-storage#readme"
+  "homepage": "https://github.com/phi0411141/reactive-storage#readme",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
 }
